@@ -1,0 +1,29 @@
+member:
+id
+name
+
+OneToMany post
+OneToMany comment
+
+
+
+post:
+
+id
+LocalDateTime
+subject
+content
+
+ManyToOne member
+OneToMany comment
+
+
+comment:
+LocalDatetime
+String content
+
+ManyToOne member
+
+
+
+
