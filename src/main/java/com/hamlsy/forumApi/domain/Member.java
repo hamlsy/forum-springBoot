@@ -19,16 +19,12 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    @NotNull
     private String name;
 
-    @NotNull
     private String nickname;
 
-    @NotNull
     private String userId;
 
-    @NotNull
     private String password;
 
     //Member 부모 객체 삭제 시 고아 객체 방지

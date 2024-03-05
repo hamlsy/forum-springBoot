@@ -1,6 +1,7 @@
 package com.hamlsy.forumApi.Service;
 
 import com.hamlsy.forumApi.domain.Member;
+import com.hamlsy.forumApi.dto.request.member.MemberDeleteDto;
 import com.hamlsy.forumApi.dto.request.member.MemberLoginDto;
 import com.hamlsy.forumApi.dto.request.member.MemberRegisterDto;
 import com.hamlsy.forumApi.dto.response.MemberResponse;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -40,9 +42,11 @@ public class MemberService {
         return MemberResponse.fromEntity(member);
     }
 
-    //단일 회원 조회
-    public Member findOne(Long id){
-        return memberRepository.findById(id);
+    //단일 회원 id로 조회
+    public MemberResponse findOne(Long id){
+        Member member = memberRepository.findById(id);
+        MemberResponse response = MemberResponse.fromEntity(member);
+        return response;
     }
 
     public Member findByUserId(String userId){
@@ -51,14 +55,37 @@ public class MemberService {
 
 
     //전체 회원 조회
-    public List<Member> findMembers(){
-        return memberRepository.findAll();
+    public List<MemberResponse> findMembers(){
+        //parameter 값 설정, dto
+        //entity -> MemberResponse
+        List<MemberResponse> memberList = memberRepository.findAll().stream()
+                .map(m -> MemberResponse.fromEntity(m))
+                .collect(Collectors.toList());
+        return memberList;
     }
 
     //회원 탈퇴
     @Transactional
-    public Long removeMember(Member member){
+    public MemberResponse deleteMember(MemberDeleteDto dto){
+        //계정 검증
+        validateUserIdPassword(dto);
+        Member member = memberRepository.findOneByUserId(dto.getUserId());
         memberRepository.removeMember(member);
-        return member.getId();
+        MemberResponse response = MemberResponse.fromEntity(member);
+        return response;
+    }
+
+    //삭제 user의 it, password 정보 일치 검증
+    private void validateUserIdPassword(MemberDeleteDto dto){
+        try{
+            Member member = memberRepository.findOneByUserId(dto.getUserId());
+            if(dto.getPassword() != member.getPassword()){
+                throw new IllegalStateException("비밀번호가 다릅니다!");
+            }
+        }catch(IllegalArgumentException e){
+            System.out.println("존재하지 않는 아이디입니다!");
+        }
+
+
     }
 }
