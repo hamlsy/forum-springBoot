@@ -6,6 +6,7 @@ import com.hamlsy.forumApi.dto.request.member.MemberLoginDto;
 import com.hamlsy.forumApi.dto.request.member.MemberRegisterDto;
 import com.hamlsy.forumApi.dto.response.MemberResponse;
 import com.hamlsy.forumApi.repository.MemberRepository;
+import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,24 +69,28 @@ public class MemberService {
     @Transactional
     public MemberResponse deleteMember(MemberDeleteDto dto){
         //계정 검증
-        validateUserIdPassword(dto);
+        validateUserId(dto);
+        validatePassword(dto);
         Member member = memberRepository.findOneByUserId(dto.getUserId());
         memberRepository.removeMember(member);
         MemberResponse response = MemberResponse.fromEntity(member);
         return response;
     }
 
-    //삭제 user의 it, password 정보 일치 검증
-    private void validateUserIdPassword(MemberDeleteDto dto){
-        try{
-            Member member = memberRepository.findOneByUserId(dto.getUserId());
-            if(dto.getPassword() != member.getPassword()){
-                throw new IllegalStateException("비밀번호가 다릅니다!");
-            }
-        }catch(IllegalArgumentException e){
-            System.out.println("존재하지 않는 아이디입니다!");
+    //id 존재 검증
+    private void validateUserId(MemberDeleteDto dto){
+        List<Member> members = memberRepository.findByUserId(dto.getUserId());
+        if(members.isEmpty()){
+            throw new NoResultException("존재하지 않는 Id입니다.");
         }
-
-
     }
+
+    //password 일치 검증
+    private void validatePassword(MemberDeleteDto dto){
+        Member member = memberRepository.findOneByUserId(dto.getUserId());
+        if(member.getPassword() != dto.getPassword()){
+            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+        }
+    }
+
 }

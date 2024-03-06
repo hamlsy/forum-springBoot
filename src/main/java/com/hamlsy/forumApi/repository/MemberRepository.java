@@ -2,6 +2,7 @@ package com.hamlsy.forumApi.repository;
 
 import com.hamlsy.forumApi.domain.Member;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -33,13 +34,6 @@ public class MemberRepository {
         ).setParameter("userId", userId).getSingleResult();
     }
 
-    //이름 중복 검증을 위한 findByName
-//    public List<Member> findByName(String name){
-//        return em.createQuery(
-//                "select m from Member m" +
-//                        " where m.name = :name", Member.class
-//        ).setParameter("name", name).getResultList();
-//    }
 
     //회원 탈퇴
     public void removeMember(Member member){
