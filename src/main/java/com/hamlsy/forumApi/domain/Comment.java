@@ -1,6 +1,7 @@
 package com.hamlsy.forumApi.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,6 +41,7 @@ public class Comment {
     }
 
     //생성 메서드
+    @Builder
     public static Comment createComment(Post post, Member member, String content){
         Comment comment = new Comment();
         comment.setMember(member);

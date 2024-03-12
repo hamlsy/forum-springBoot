@@ -46,11 +46,12 @@ public class Post {
 
     //생성 메서드
     @Builder
-    public static Post createPost(Member member, String subject, String content){
+    public static Post createPost(Member member, String subject, String content, LocalDateTime postTime){
         Post post = new Post();
         post.setMember(member);
         post.setSubject(subject);
         post.setContent(content);
+        post.setPostTime(postTime);
         return post;
     }
 

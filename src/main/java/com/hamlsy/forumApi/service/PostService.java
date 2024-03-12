@@ -1,4 +1,4 @@
-package com.hamlsy.forumApi.Service;
+package com.hamlsy.forumApi.service;
 
 import com.hamlsy.forumApi.domain.Post;
 import com.hamlsy.forumApi.dto.request.post.PostUpdateDto;

@@ -1,6 +1,7 @@
 package com.hamlsy.forumApi.dto.request.post;
 
 import com.hamlsy.forumApi.domain.Post;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PostUploadDto {
+
+    @NotBlank(message = "제목을 입력해주세요.")
     private String subject;
+
+    @NotBlank(message = "내용을 입력해주세요")
     private String content;
 
     @Builder

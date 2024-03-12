@@ -3,10 +3,12 @@ package com.hamlsy.forumApi.dto.request.member;
 import com.hamlsy.forumApi.domain.Member;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class MemberLoginDto {
     private String userId;
     private String password;

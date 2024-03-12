@@ -1,17 +1,18 @@
 package com.hamlsy.forumApi.api;
-import com.hamlsy.forumApi.Service.PostService;
+import com.hamlsy.forumApi.service.PostService;
 import com.hamlsy.forumApi.dto.request.post.PostUpdateDto;
 import com.hamlsy.forumApi.dto.request.post.PostUploadDto;
 import com.hamlsy.forumApi.dto.response.PostResponse;
 import com.hamlsy.forumApi.dto.response.PostUpdateResponse;
 import com.hamlsy.forumApi.dto.response.PostUploadResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/post")
+@RequestMapping("/postApi")
 public class PostApiController {
     private final PostService postService;
 
@@ -28,7 +29,7 @@ public class PostApiController {
     }
 
     @PostMapping("/upload")
-    public PostUploadResponse uploadPost(@RequestBody PostUploadDto dto){;
+    public PostUploadResponse uploadPost(@RequestBody @Valid PostUploadDto dto){;
         return postService.uploadPost(dto);
     }
 

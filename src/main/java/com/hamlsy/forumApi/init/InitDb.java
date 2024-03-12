@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Component
 @RequiredArgsConstructor
 public class InitDb {
@@ -27,7 +29,6 @@ public class InitDb {
     static class InitService{
         private final EntityManager em;
 
-
         public void dbInit1(){
             Member member = new Member();
             member.setName("Lee");
@@ -36,8 +37,8 @@ public class InitDb {
             member.setNickname("hamster");
             em.persist(member);
 
-            Post post1 = Post.createPost(member, "test subject", "test content");
-            Post post2 = Post.createPost(member, "두번째 글", "내용은없지롱");
+            Post post1 = Post.createPost(member, "test subject", "test content", LocalDateTime.now());
+            Post post2 = Post.createPost(member, "두번째 글", "내용은없지롱", LocalDateTime.now());
             em.persist(post1);
             em.persist(post2);
 

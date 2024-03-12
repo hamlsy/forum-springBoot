@@ -24,6 +24,16 @@ public class CommentRepository {
         return em.find(Comment.class,id);
     }
 
+    public List<Comment> findAllByUserId(String userId){
+        return em.createQuery(
+                "select c from Comment c " +
+                        "where c.member.userId = :userId"
+                                ,Comment.class)
+                .setParameter("userId", userId)
+                .getResultList();
+
+    }
+
     public List<Comment> findAll(){
         return em.createQuery(
                 "select c from Comment c",Comment.class

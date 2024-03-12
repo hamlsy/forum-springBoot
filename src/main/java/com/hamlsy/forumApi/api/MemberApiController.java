@@ -1,7 +1,6 @@
 package com.hamlsy.forumApi.api;
 
-import com.hamlsy.forumApi.Service.MemberService;
-import com.hamlsy.forumApi.domain.Member;
+import com.hamlsy.forumApi.service.MemberService;
 import com.hamlsy.forumApi.dto.request.member.MemberDeleteDto;
 import com.hamlsy.forumApi.dto.request.member.MemberLoginDto;
 import com.hamlsy.forumApi.dto.request.member.MemberRegisterDto;
@@ -11,11 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/member")
+@RequestMapping("/memberApi")
 public class MemberApiController {
     private final MemberService memberService;
 
@@ -25,7 +23,6 @@ public class MemberApiController {
         List<MemberResponse> collect = memberService.findMembers();
         return collect;
     }
-
 
     //회원 단일 조회
     @GetMapping("/{id}")
@@ -48,7 +45,6 @@ public class MemberApiController {
     }
 
     //회원 탈퇴
-
     @PostMapping("/delete")
     public MemberResponse deleteMember(@RequestBody MemberDeleteDto dto){
         MemberResponse response = memberService.deleteMember(dto);
