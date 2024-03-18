@@ -1,6 +1,7 @@
 package com.hamlsy.forumApi.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,8 +20,14 @@ public class Post {
     private Long id;
 
     private LocalDateTime postTime;
+    private LocalDateTime modifyTime;
 
+    @Column
+    @NotNull(message = "제목을 입력하세요.")
     private String subject;
+
+    @Column
+    @NotNull(message = "내용을 입력하세요.")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,9 +39,10 @@ public class Post {
 
 
     @Builder
-    public Post(String subject, String content) {
+    public Post(String subject, String content, LocalDateTime postTime) {
         this.subject = subject;
         this.content = content;
+        this.postTime = postTime;
     }
 
 

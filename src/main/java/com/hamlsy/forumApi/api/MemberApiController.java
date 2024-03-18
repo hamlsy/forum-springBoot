@@ -1,9 +1,9 @@
 package com.hamlsy.forumApi.api;
 
 import com.hamlsy.forumApi.service.MemberService;
-import com.hamlsy.forumApi.dto.request.member.MemberDeleteDto;
-import com.hamlsy.forumApi.dto.request.member.MemberLoginDto;
-import com.hamlsy.forumApi.dto.request.member.MemberRegisterDto;
+import com.hamlsy.forumApi.dto.request.member.MemberDeleteRequest;
+import com.hamlsy.forumApi.dto.request.member.MemberLoginRequest;
+import com.hamlsy.forumApi.dto.request.member.MemberRegisterRequest;
 import com.hamlsy.forumApi.dto.response.MemberResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,21 +32,21 @@ public class MemberApiController {
 
     //로그인
     @PostMapping("/login")
-    public MemberResponse loginMember(@RequestBody MemberLoginDto memberLoginDto){
+    public MemberResponse loginMember(@RequestBody MemberLoginRequest memberLoginDto){
         MemberResponse memberResponse = memberService.login(memberLoginDto);
         return memberResponse;
     }
 
     //회원가입
     @PostMapping("/register")
-    public MemberResponse registerMember(@RequestBody @Valid MemberRegisterDto memberRegisterDto){
-        MemberResponse memberResponse = memberService.join(memberRegisterDto);
+    public MemberResponse registerMember(@RequestBody @Valid MemberRegisterRequest memberRegisterRequest){
+        MemberResponse memberResponse = memberService.join(memberRegisterRequest);
         return memberResponse;
     }
 
     //회원 탈퇴
     @PostMapping("/delete")
-    public MemberResponse deleteMember(@RequestBody MemberDeleteDto dto){
+    public MemberResponse deleteMember(@RequestBody MemberDeleteRequest dto){
         MemberResponse response = memberService.deleteMember(dto);
         return response;
     }

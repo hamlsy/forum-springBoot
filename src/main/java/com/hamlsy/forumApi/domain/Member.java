@@ -1,5 +1,6 @@
 package com.hamlsy.forumApi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -27,6 +28,8 @@ public class Member {
 
     private String password;
 
+    private MemberRole role;
+
     //Member 부모 객체 삭제 시 고아 객체 방지
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Post> posts = new ArrayList<>();
@@ -35,11 +38,12 @@ public class Member {
     private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    public Member(String name, String nickname, String userId, String password){
+    public Member(String name, String nickname, String userId, String password, MemberRole role){
         this.name = name;
         this.nickname = nickname;
         this.userId = userId;
         this.password = password;
+        this.role = role;
     }
 
 }

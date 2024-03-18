@@ -2,8 +2,8 @@ package com.hamlsy.forumApi.controller;
 
 import com.hamlsy.forumApi.dto.response.MemberResponse;
 import com.hamlsy.forumApi.service.MemberService;
-import com.hamlsy.forumApi.dto.request.member.MemberLoginDto;
-import com.hamlsy.forumApi.dto.request.member.MemberRegisterDto;
+import com.hamlsy.forumApi.dto.request.member.MemberLoginRequest;
+import com.hamlsy.forumApi.dto.request.member.MemberRegisterRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
+
     //로그인
     @PostMapping("/login")
-    public String login(MemberLoginDto dto){
-        MemberResponse response = memberService.login(dto);
-        return "redirect:/post/list";
+    public MemberResponse login(MemberLoginRequest dto){
+        MemberResponse member = memberService.login(dto);
+        return member;
     }
 
 
@@ -31,7 +32,7 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public String register(@Valid MemberRegisterDto dto){
+    public String register(@Valid MemberRegisterRequest dto){
         memberService.join(dto);
         return "redirect:/";
     }

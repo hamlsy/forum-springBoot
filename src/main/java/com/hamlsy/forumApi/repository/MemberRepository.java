@@ -2,11 +2,11 @@ package com.hamlsy.forumApi.repository;
 
 import com.hamlsy.forumApi.domain.Member;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -27,7 +27,7 @@ public class MemberRepository {
         ).getResultList();
     }
 
-    public Member findOneByUserId(String userId){
+    public Member findByUserId(String userId){
         return em.createQuery(
                 "select m from Member m" +
                         " where m.userId = :userId", Member.class
@@ -41,7 +41,7 @@ public class MemberRepository {
     }
 
     //아이디 중복 검증을 위한 findByUserId
-    public List<Member> findByUserId(String userId){
+    public List<Member> findByAllUserId(String userId){
         return em.createQuery(
                 "select m from Member m" +
                         " where m.userId = :userId", Member.class

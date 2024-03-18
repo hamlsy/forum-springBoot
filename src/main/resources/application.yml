@@ -1,3 +1,9 @@
+#서버 재시작시 세션 초기화
+server:
+  servlet:
+    session:
+      persistent: false
+
 spring:
   thymeleaf:
     check-template-location: true
