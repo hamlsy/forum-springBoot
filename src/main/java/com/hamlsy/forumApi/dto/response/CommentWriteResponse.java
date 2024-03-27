@@ -13,21 +13,29 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class CommentWriteResponse {
+
+    private Long commentId;
     private String content;
     private String nickname;
     private LocalDateTime commentTime;
+    private String userId;
+
     @Builder
-    public CommentWriteResponse(String content, String nickname, LocalDateTime commentTime) {
+    public CommentWriteResponse(String content, String nickname, LocalDateTime commentTime, Long commentId, String userId) {
         this.content = content;
         this.nickname = nickname;
         this.commentTime = commentTime;
+        this.userId = userId;
     }
 
     public static CommentWriteResponse fromEntity(Comment comment){
         return CommentWriteResponse.builder()
                 .content(comment.getContent())
-                .nickname(comment.getMember().getNickname())
                 .commentTime(LocalDateTime.now())
+                .commentId(comment.getId())
+                //member 2번 호출
+                .nickname(comment.getMember().getNickname())
+                .userId(comment.getMember().getUserId())
                 .build();
     }
 }

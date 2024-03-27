@@ -6,10 +6,7 @@ import com.hamlsy.forumApi.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -24,6 +21,13 @@ public class CommentController {
                                @PathVariable("id") Long postId,
                                Principal principal, Model model){
         CommentWriteResponse response = commentService.writeComment(request, postId, principal);
+        return String.format("redirect:/post/%s", postId);
+    }
+
+    //수정 필요
+    @GetMapping("/delete/{commentId}")
+    public String commentDelete(@PathVariable("id") Long postId, @PathVariable Long commentId){
+        commentService.deleteComment(commentId);
         return String.format("redirect:/post/%s", postId);
     }
 }

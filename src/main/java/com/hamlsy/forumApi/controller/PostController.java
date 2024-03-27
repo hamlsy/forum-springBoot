@@ -59,9 +59,14 @@ public class PostController {
 
     @PostMapping("/modify/{id}")
     public String postModify(@PathVariable("id") Long postId, PostUpdateRequest request){
-        //bindingResult처리 필요
         postService.updatePost(postId, request);
         return String.format("redirect:/post/%s", postId);
+    }
+
+    @GetMapping("/delete/{id}")
+    public String postModify(@PathVariable("id") Long postId){
+        postService.deletePost(postId);
+        return "redirect:/post/list";
     }
 
 }

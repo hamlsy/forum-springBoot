@@ -22,6 +22,8 @@ public class Comment {
     private String content;
 
     private LocalDateTime commentTime;
+
+    //아직 활용 안됨
     private LocalDateTime modifyTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -59,4 +61,5 @@ public class Comment {
         comment.setContent(content);
         return comment;
     }
+
 }

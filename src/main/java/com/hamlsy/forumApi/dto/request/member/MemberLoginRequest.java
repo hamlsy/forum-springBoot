@@ -13,7 +13,6 @@ public class MemberLoginRequest {
     private String userId;
     private String password;
 
-    @Builder
     public MemberLoginRequest(String userId, String password){
         this.userId = userId;
         this.password = password;

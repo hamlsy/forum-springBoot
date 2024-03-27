@@ -20,7 +20,6 @@ public class MemberRegisterRequest {
     @NotBlank(message = "닉네임은 필수 입력입니다.")
     private String nickname;
 
-    @Builder
     public MemberRegisterRequest(String name, String userId, String password, String nickname) {
         this.name = name;
         this.userId = userId;

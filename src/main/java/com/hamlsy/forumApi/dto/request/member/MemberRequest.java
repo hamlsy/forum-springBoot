@@ -15,7 +15,8 @@ public class MemberRequest {
     private String name;
     private String password;
 
-    @Builder
+
+
     public MemberRequest(String userId, String nickname, String name, String password) {
         this.userId = userId;
         this.nickname = nickname;

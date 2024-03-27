@@ -2,6 +2,7 @@ package com.hamlsy.forumApi.dto.response.post;
 
 import com.hamlsy.forumApi.domain.Comment;
 import com.hamlsy.forumApi.domain.Post;
+import com.hamlsy.forumApi.dto.response.CommentWriteResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -23,10 +25,10 @@ public class PostResponse {
 
     //인증
     private String userId;
-    private List<Comment> comments;
+    private List<CommentWriteResponse> comments;
 
     @Builder
-    public PostResponse(String subject, String content, LocalDateTime postTime, List<Comment> comments, Long postId, String nickname, String userId) {
+    public PostResponse(String subject, String content, LocalDateTime postTime, List<CommentWriteResponse> comments, Long postId, String nickname, String userId) {
         this.subject = subject;
         this.content = content;
         this.postTime = postTime;
@@ -41,7 +43,10 @@ public class PostResponse {
                 .subject(post.getSubject())
                 .content(post.getContent())
                 .postTime(post.getPostTime())
-                .comments(post.getComments())
+                //entity -> dto
+                .comments(post.getComments().stream()
+                        .map(c -> CommentWriteResponse.fromEntity(c))
+                        .collect(Collectors.toList()))
                 .postId(post.getId())
                 //Member 2번 호출 -> refactor 필요
                 .nickname(post.getMember().getNickname())

@@ -21,11 +21,8 @@ public class Member {
     private Long id;
 
     private String name;
-
     private String nickname;
-
     private String userId;
-
     private String password;
 
     private MemberRole role;

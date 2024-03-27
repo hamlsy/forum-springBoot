@@ -63,11 +63,8 @@ public class Post {
         return post;
     }
 
-
     //비즈니스 로직
-
     //update 더티체킹
-
     public void update(String subject, String content){
         this.subject = subject;
         this.content = content;

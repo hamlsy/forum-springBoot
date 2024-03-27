@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
+
     @Transactional
     public PostUploadResponse uploadPost(PostUploadRequest dto, Principal principal){
         dto.setPostTime(LocalDateTime.now());
@@ -58,6 +59,5 @@ public class PostService {
                 .map(p -> PostListResponse.fromEntity(p))
                 .collect(Collectors.toList());
     }
-
 
 }

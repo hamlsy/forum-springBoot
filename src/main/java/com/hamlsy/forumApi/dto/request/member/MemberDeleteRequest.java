@@ -13,7 +13,7 @@ public class MemberDeleteRequest {
     private String userId;
     private String password;
 
-    @Builder
+
     public MemberDeleteRequest(String userId, String password) {
         this.userId = userId;
         this.password = password;

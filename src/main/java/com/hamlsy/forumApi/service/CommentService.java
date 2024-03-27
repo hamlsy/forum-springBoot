@@ -4,6 +4,7 @@ import com.hamlsy.forumApi.domain.Comment;
 import com.hamlsy.forumApi.domain.Member;
 import com.hamlsy.forumApi.domain.MemberRole;
 import com.hamlsy.forumApi.domain.Post;
+import com.hamlsy.forumApi.dto.request.comment.CommentDeleteRequest;
 import com.hamlsy.forumApi.dto.request.comment.CommentWriteRequest;
 import com.hamlsy.forumApi.dto.response.CommentWriteResponse;
 import com.hamlsy.forumApi.repository.CommentRepository;
@@ -35,8 +36,8 @@ public class CommentService {
     }
 
     @Transactional
-    public void deleteComment(Comment comment){
-        commentRepository.delete(comment);
+    public void deleteComment(Long commentId){
+        commentRepository.delete(commentId);
     }
 
     public Comment findComment(Long id){

@@ -24,7 +24,6 @@ public class MemberController {
         return member;
     }
 
-
     //회원가입
     @GetMapping("/register")
     public String register(){
@@ -36,6 +35,5 @@ public class MemberController {
         memberService.join(dto);
         return "redirect:/";
     }
-
 
 }

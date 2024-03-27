@@ -16,8 +16,11 @@ public class CommentRepository {
         em.persist(comment);
     }
 
-    public void delete(Comment comment){
-        em.remove(comment);
+    public void delete(Long commentId){
+        em.createQuery(
+                "delete from Comment c " +
+                        "where c.id = :commentId", Comment.class)
+                .setParameter("commentId", commentId);
     }
 
     public Comment findById(Long id){
