@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +26,9 @@ public class CommentService {
     @Transactional
     public CommentWriteResponse writeComment(CommentWriteRequest request, Long postId, Principal principal){
         Member member = memberRepository.findByUserId(principal.getName());
-        Post post = postRepository.findById(postId);
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new NoSuchElementException()
+        );
         Comment comment = CommentWriteRequest.toEntity(request);
         comment.setMember(member);
         comment.setPost(post);

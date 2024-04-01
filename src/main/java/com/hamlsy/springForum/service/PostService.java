@@ -11,12 +11,17 @@ import com.hamlsy.springForum.dto.response.post.PostUploadResponse;
 import com.hamlsy.springForum.repository.MemberRepository;
 import com.hamlsy.springForum.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,9 +43,9 @@ public class PostService {
 
     @Transactional
     public PostUpdateResponse updatePost(Long postId, PostUpdateRequest dto){
-        Post updatePost = postRepository.findById(postId);
-        updatePost.update(dto.getSubject(), dto.getContent());
-        return PostUpdateResponse.fromEntity(updatePost);
+        Post post = findPostById(postId);
+        post.update(dto.getSubject(), dto.getContent());
+        return PostUpdateResponse.fromEntity(post);
     }
 
     @Transactional
@@ -48,26 +53,34 @@ public class PostService {
         if(principal == null){
             throw new IllegalStateException("인증이 필요합니다.");
         }
-        Post post = postRepository.findById(postId);
-        if(post == null){
-            throw new IllegalArgumentException("존재하지 않는 게시글입니다.");
-        }
+        Post post = findPostById(postId);
         if(post.getMember().getUserId() != principal.getName()){
             throw new IllegalStateException("작성자만 삭제할 수 있습니다.");
         }
-        postRepository.delete(postId);
+        postRepository.deleteById(postId);
     }
 
-    public PostResponse findPost(Long id){
-        Post post = postRepository.findById(id);
+    public PostResponse findPost(Long postId){
+        Post post = findPostById(postId);
         return PostResponse.fromEntity(post);
     }
 
-    public List<PostListResponse> findAllPost(){
-        List<Post> posts = postRepository.findAll();
-        return posts.stream()
-                .map(p -> PostListResponse.fromEntity(p))
-                .collect(Collectors.toList());
+    private Post findPostById(Long id){
+        return postRepository.findById(id).orElseThrow(
+                //todo: 예외 클래스 새로 작성
+                () -> new NoSuchElementException()
+        );
+    }
+
+    public Page<PostListResponse> paging(int page){
+        int pageLimit = 15;
+        Pageable pageable = PageRequest.of(page, pageLimit);
+
+        Page<Post> postList = postRepository.findAll(pageable);
+        Page<PostListResponse> postPageList = postList.map(
+                postPage -> new PostListResponse().fromEntity(postPage)
+        );
+        return postPageList;
     }
 
 }

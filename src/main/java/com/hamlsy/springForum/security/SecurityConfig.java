@@ -15,16 +15,14 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-
 public class SecurityConfig {
 
     @Bean
-    @Order(1)
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         //login
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authroize) -> authroize
-                        .requestMatchers("/member/login").authenticated()
+                        .requestMatchers("/member/**").authenticated()
                         .requestMatchers("/post/**").hasRole(MemberRole.MEMBER.name())
                         .anyRequest().permitAll()
 
