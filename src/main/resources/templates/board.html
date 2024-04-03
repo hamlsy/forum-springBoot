@@ -19,19 +19,26 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="postList, loop : ${postList}">
+                <tr th:each="post, loop : ${postList}">
                     <td>
-                        <a th:text="${postList.getId()}"></a>
+                        <a th:text="${postList.getTotalElements() - (postList.number * postList.size) - loop.index}"></a>
                     </td>
                     <td>
-                        <a th:href="@{|/post/${postList.getId()}|}" th:text="${postList.getSubject()}"></a>
+                        <a th:href="@{|/post/${post.getId()}|}" th:text="${post.getSubject()}"></a>
                     </td>
-                    <td th:text="${#temporals.format(postList.getPostTime(), 'yyyy-MM-dd HH:mm')}"></td>
-                    <td th:text="${postList.getNickname()}"></td>
+                    <td th:text="${#temporals.format(post.getPostTime(), 'yyyy-MM-dd HH:mm')}"></td>
+                    <td th:text="${post.getNickname()}"></td>
                 </tr>
             </tbody>
         </table>
     </div>
+
+<!--     paging button-->
+    <th:block th:each="page:${#numbers.sequence(firstPage, endPage)}">
+        <a th:if="${page != currentPage}" th:href="@{/post/list(page=${page-1})}" th:text ="${page}"></a>
+        <strong th:if="${page==currentPage}" th:text ="${page}" style="color:mediumpurple"></strong>
+    </th:block>
+<!--    //-->
     <div>
         <form th:action="@{/post/upload}" method="get">
             <button type="submit" class="btn btn-primary">등록</button>
