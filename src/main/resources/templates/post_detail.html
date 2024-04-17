@@ -31,7 +31,8 @@
 <!--            -->
 <!--            글 삭제-->
             <div class="my-3">
-                <a th:href="@{|/post/delete/${post.getPostId()}|}" class="delete btn btn-sm btn-outline-secondary"
+                <a
+                   th:data-uri= "@{|/post/delete/${post.getPostId()}|}" class="delete btn btn-sm btn-outline-secondary"
                    sec:authorize="isAuthenticated()"
                    th:if="${#authentication.getPrincipal().getUsername() == post.getUserId()}"
                    th:text="삭제"
@@ -77,16 +78,21 @@
         </form>
 
     </div>
+
+
+    </body>
     <script type="text/javascript">
         const delete_elements = document.getElementsByClassName("delete");
         Array.from(delete_elements).forEach(function (element){
             element.addEventListener('click', function (){
                 if(confirm("삭제하시겠습니까?")){
                     location.href = this.dataset.uri;
+
+                }else{
+                    console.log("취소되었습니다.");
                 };
+
             });
         });
     </script>
-
-    </body>
 </html>
