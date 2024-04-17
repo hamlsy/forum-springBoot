@@ -5,6 +5,7 @@ import com.hamlsy.springForum.dto.request.post.PostUploadRequest;
 import com.hamlsy.springForum.dto.response.post.PostListResponse;
 import com.hamlsy.springForum.dto.response.post.PostResponse;
 import com.hamlsy.springForum.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,7 +44,7 @@ public class PostController {
     }
 
     @PostMapping("/upload")
-    public String postUpload(PostUploadRequest dto, Principal principal){
+    public String postUpload(@Valid PostUploadRequest dto, Principal principal){
         postService.uploadPost(dto, principal);
         return "redirect:/post/list(page=0)";
     }
