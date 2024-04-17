@@ -34,10 +34,12 @@
     </div>
 
 <!--     paging button-->
+    <div th:if="${postList.totalElements >= 1}">
     <th:block th:each="page:${#numbers.sequence(firstPage, endPage)}">
         <a th:if="${page != currentPage}" th:href="@{/post/list(page=${page-1})}" th:text ="${page}"></a>
         <strong th:if="${page==currentPage}" th:text ="${page}" style="color:mediumpurple"></strong>
     </th:block>
+    </div>
 <!--    //-->
     <div>
         <form th:action="@{/post/upload}" method="get">
