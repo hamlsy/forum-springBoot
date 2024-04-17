@@ -46,7 +46,7 @@ public class PostController {
     @PostMapping("/upload")
     public String postUpload(@Valid PostUploadRequest dto, Principal principal){
         postService.uploadPost(dto, principal);
-        return "redirect:/post/list(page=0)";
+        return "redirect:/post/list?page=0";
     }
 
     @GetMapping("/{id}")
