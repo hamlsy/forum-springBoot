@@ -1,5 +1,6 @@
 package com.hamlsy.springForum.controller;
 
+import com.hamlsy.springForum.dto.request.post.PostRequest;
 import com.hamlsy.springForum.dto.request.post.PostUpdateRequest;
 import com.hamlsy.springForum.dto.request.post.PostUploadRequest;
 import com.hamlsy.springForum.dto.response.post.PostListResponse;
@@ -39,7 +40,8 @@ public class PostController {
     }
 
     @GetMapping("/upload")
-    public String postUpload(){
+    public String postUpload(Model model){
+        model.addAttribute("postResponse", new PostResponse());
         return "post_upload";
     }
 
