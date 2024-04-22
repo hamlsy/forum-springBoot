@@ -52,7 +52,7 @@
                 </div>
                 <!--                    댓글 삭제-->
                 <div class="my-3">
-                    <a th:href="@{|/post/${post.getPostId()}/comment/delete/${comment.getCommentId()}|}" class="delete btn btn-sm btn-outline-secondary"
+                    <a th:data-uri ="@{|/post/${post.getPostId()}/comment/delete/${comment.getCommentId()}|}" class="delete btn btn-sm btn-outline-secondary"
                        sec:authorize="isAuthenticated()"
                        th:if="${#authentication.getPrincipal().getUsername() == comment.getUserId()}"
                        th:text="삭제"
