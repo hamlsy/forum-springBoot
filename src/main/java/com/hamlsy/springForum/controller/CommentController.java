@@ -25,10 +25,15 @@ public class CommentController {
         return String.format("redirect:/post/%s", postId);
     }
 
-    //수정 필요
     @GetMapping("/delete/{commentId}")
     public String commentDelete(@PathVariable("id") Long postId, @PathVariable("commentId") Long commentId){
         commentService.deleteComment(commentId);
+        return String.format("redirect:/post/%s", postId);
+    }
+
+    @PostMapping("/modify/{commentId}")
+    public String commentModify(@PathVariable("id") Long postId, @PathVariable("commentId") Long commentId, @Valid CommentWriteRequest request){
+        commentService.modifyComment(commentId, request);
         return String.format("redirect:/post/%s", postId);
     }
 }

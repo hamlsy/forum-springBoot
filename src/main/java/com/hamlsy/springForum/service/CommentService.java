@@ -52,4 +52,12 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
+    @Transactional
+    public CommentWriteResponse modifyComment(Long commentId, CommentWriteRequest request){
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new NoSuchElementException()
+        );
+        comment.update(request.getContent());
+        return CommentWriteResponse.fromEntity(comment);
+    }
 }

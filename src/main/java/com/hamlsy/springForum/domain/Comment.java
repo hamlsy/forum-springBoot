@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Table(name = "comments")
 @NoArgsConstructor
 public class Comment {
 
@@ -60,6 +61,10 @@ public class Comment {
         comment.setPost(post);
         comment.setContent(content);
         return comment;
+    }
+
+    public void update(String content){
+        this.content = content;
     }
 
 }
