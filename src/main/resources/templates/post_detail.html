@@ -73,8 +73,8 @@
                 <!--            댓글 수정 폼-->
                 <div th:id="editForm + ${comment.getCommentId()}" style="display: none;">
                 <form th:action="@{|/post/${post.getPostId()}/comment/modify/${comment.getCommentId()}|}" class="my-3" method="post">
-                    <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}"/>
-                    <input type="text" id="commentContent" name="content">
+                    <input type="hidden"  th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}"/>
+                    <input type="text" th:value = "${comment.getContent()}" id="commentContent" name="content">
                     <button type="submit"
                             class="btn btn-sm btn-outline-secondary">저장</button>
                     <button type="button" class="btn btn-sm btn-outline-secondary" th:onclick="'cancelEdit('+ ${comment.getCommentId} +')'">취소</button>
@@ -90,9 +90,6 @@
         </form>
 <!---->
     </div>
-
-
-    </body>
     <script type="text/javascript">
         const delete_elements = document.getElementsByClassName("delete");
         Array.from(delete_elements).forEach(function (element){
@@ -107,13 +104,13 @@
             });
         });
         function editComment(id){
-            var comment = document.getElementById("c"+id);
-            document.getElementById("commentContent").value = comment.content;
-            document.getElementById("editForm" + id).style.display = "block";
+            var comment = document.querySelector("#c"+id);
+            document.querySelector("#editForm" + id).style.display = "block";
         }
         function cancelEdit(id) {
             document.getElementById("editForm"+id).style.display = "none";
         }
 
     </script>
+    </body>
 </html>
