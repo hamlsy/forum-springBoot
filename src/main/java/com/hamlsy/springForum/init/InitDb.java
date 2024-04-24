@@ -64,6 +64,17 @@ public class InitDb {
             member.setNickname("dd");
             member.setRole(MemberRole.MEMBER);
             em.persist(member);
+
+            Post post1 = Post.createPost(member, "제목제목", "내용내용", LocalDateTime.now());
+            em.persist(post1);
+
+            Comment comment1 = Comment.createComment(post1, member, "comment1");
+            Comment comment2 = Comment.createComment(post1, member, "comment2");
+            Comment comment3 = Comment.createComment(post1, member, "comment3");
+
+            em.persist(comment1);
+            em.persist(comment2);
+            em.persist(comment3);
         }
     }
 }
