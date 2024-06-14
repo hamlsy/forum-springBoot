@@ -1,5 +1,6 @@
 package com.hamlsy.springForum.controller;
 
+import com.hamlsy.springForum.dto.request.comment.CommentWriteRequest;
 import com.hamlsy.springForum.dto.request.post.PostRequest;
 import com.hamlsy.springForum.dto.request.post.PostUpdateRequest;
 import com.hamlsy.springForum.dto.request.post.PostUploadRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -54,6 +56,7 @@ public class PostController {
     @GetMapping("/{id}")
     public String postDetail(@PathVariable("id") Long id, Model model){
         PostResponse response = postService.findPost(id);
+        model.addAttribute("commentWriteRequest", new CommentWriteRequest());
         model.addAttribute("post", response);
         return "post_detail";
     }

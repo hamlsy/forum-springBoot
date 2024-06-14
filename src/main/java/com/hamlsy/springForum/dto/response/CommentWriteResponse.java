@@ -25,6 +25,7 @@ public class CommentWriteResponse {
         this.nickname = nickname;
         this.commentTime = commentTime;
         this.userId = userId;
+        this.commentId = commentId;
     }
 
     public static CommentWriteResponse fromEntity(Comment comment){
