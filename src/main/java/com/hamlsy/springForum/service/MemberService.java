@@ -8,6 +8,11 @@ import com.hamlsy.springForum.dto.response.MemberResponse;
 import com.hamlsy.springForum.repository.MemberRepository;
 import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +27,7 @@ import java.util.stream.Collectors;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
     //회원가입
     @Transactional
     public MemberResponse join(MemberRegisterRequest memberRegisterRequest){
@@ -41,8 +47,22 @@ public class MemberService {
     //로그인
     @Transactional
     public MemberResponse login(MemberLoginRequest memberLoginDto){
-        Member member = memberLoginDto.toEntity(memberLoginDto);
-        return MemberResponse.fromEntity(member);
+        //검증
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            memberLoginDto.getUserId(),
+                            memberLoginDto.getPassword()
+                    )
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            Member member = memberRepository.findByUserId(memberLoginDto.getUserId());
+            return MemberResponse.fromEntity(member);
+        } catch (AuthenticationException e) {
+            throw new IllegalArgumentException("Invalid username or password");
+        }
+
     }
 
     //단일 회원 id로 조회
@@ -92,6 +112,8 @@ public class MemberService {
     private void validatePassword(MemberDeleteRequest dto){
         Optional<Member> _member = Optional.ofNullable(memberRepository.findByUserId(dto.getUserId()));
         Member member = _member.get();
+
+        //-> equals
         if(member.getPassword() != dto.getPassword()){
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }

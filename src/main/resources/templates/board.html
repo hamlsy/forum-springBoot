@@ -6,45 +6,45 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 <body>
-    <nav th:replace="~{navbar :: navbarFragment}"></nav>
-    <div>
-        <table class="table">
-            <thead class="table-dark">
-            <thead>
-                <tr>
-                    <th>번호</th>
-                    <th>제목</th>
-                    <th>작성일시</th>
-                    <th>작성자</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="post, loop : ${postList}">
-                    <td>
-                        <a th:text="${postList.getTotalElements() - (postList.number * postList.size) - loop.index}"></a>
-                    </td>
-                    <td>
-                        <a th:href="@{|/post/${post.getId()}|}" th:text="${post.getSubject()}"></a>
-                    </td>
-                    <td th:text="${#temporals.format(post.getPostTime(), 'yyyy-MM-dd HH:mm')}"></td>
-                    <td th:text="${post.getNickname()}"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<nav th:replace="~{navbar :: navbarFragment}"></nav>
+<div>
+    <table class="table">
+        <thead class="table-dark">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성일시</th>
+            <th>작성자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post, loop : ${postList}">
+            <td>
+                <a th:text="${postList.getTotalElements() - (postList.number * postList.size) - loop.index}"></a>
+            </td>
+            <td>
+                <a th:href="@{|/post/${post.getId()}|}" th:text="${post.getSubject()}"></a>
+            </td>
+            <td th:text="${#temporals.format(post.getPostTime(), 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${post.getNickname()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 <!--     paging button-->
-    <div th:if="${postList.totalElements >= 1}">
+<div th:if="${postList.totalElements >= 1}">
     <th:block th:each="page:${#numbers.sequence(firstPage, endPage)}">
         <a th:if="${page != currentPage}" th:href="@{/post/list(page=${page-1})}" th:text ="${page}"></a>
         <strong th:if="${page==currentPage}" th:text ="${page}" style="color:mediumpurple"></strong>
     </th:block>
-    </div>
+</div>
 <!--    //-->
-    <div>
-        <form th:action="@{/post/upload}" method="get">
-            <button type="submit" class="btn btn-primary">등록</button>
-        </form>
-    </div>
+<div>
+    <form th:action="@{/post/upload}" method="get">
+        <button type="submit" class="btn btn-primary">등록</button>
+    </form>
+</div>
 </body>
 </html>
