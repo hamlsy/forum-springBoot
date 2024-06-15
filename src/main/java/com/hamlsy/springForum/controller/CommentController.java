@@ -1,7 +1,6 @@
 package com.hamlsy.springForum.controller;
 
 import com.hamlsy.springForum.dto.request.comment.CommentWriteRequest;
-import com.hamlsy.springForum.dto.response.CommentWriteResponse;
 import com.hamlsy.springForum.dto.response.post.PostResponse;
 import com.hamlsy.springForum.service.CommentService;
 import com.hamlsy.springForum.service.PostService;
