@@ -1,48 +1,50 @@
 <template>
-  <div class="login-container">
-    <h2>로그인</h2>
-    <form @submit.prevent="login">
+  <div class="signup-container">
+    <h2>회원가입</h2>
+    <form>
+      <div class="form-group">
+        <label for="name">이름</label>
+        <input type="text" id="name" v-model="form.name" required>
+      </div>
+      <div class="form-group">
+        <label for="nickname">닉네임</label>
+        <input type="text" id="nickname" v-model="form.nickname" required>
+      </div>
       <div class="form-group">
         <label for="userId">아이디</label>
-        <input type="text" id="userId" name="userId" required>
+        <input type="text" id="userId" v-model="form.userId" required>
       </div>
       <div class="form-group">
         <label for="password">비밀번호</label>
-        <input type="password" id="password" name="password" required>
+        <input type="password" id="password" v-model="form.password" required>
       </div>
       <div class="button-group">
-        <button type="submit">로그인</button>
-        <button type="button"><router-link to="/register">회원가입</router-link></button>
+        <button type="submit">가입하기</button>
+        <button type="button"><router-link to="/login">로그인</router-link></button>
       </div>
-
     </form>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   data() {
-    return{
-      userId: '',
-      password: ''
-    }
+    return {
+      form: {
+        name: '',
+        nickname: '',
+        userId: '',
+        password: ''
+      }
+    };
   },
   methods: {
-    login() {
-      // 로그인 로직 구현
-      axios.post('/login', {
-        userId: this.userId,
-        password: this.password
-      })
-    }
   }
 };
 </script>
 
 <style scoped>
-.login-container {
+.signup-container {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;

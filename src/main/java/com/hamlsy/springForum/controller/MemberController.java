@@ -42,9 +42,13 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public String register(@Valid MemberRegisterRequest dto){
-        memberService.join(dto);
-        return "redirect:/";
+    public ResponseEntity<?> register(@RequestBody @Valid MemberRegisterRequest dto){
+        try{
+            memberService.join(dto);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (IllegalStateException e){
+            //회원가입 실패
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
-
 }
