@@ -1,34 +1,46 @@
-<template>
-  <div>
-    <h2>로그인</h2>
-    <form @submit.prevent="login">
-      <div>
-        <label for="username">아이디:</label>
-        <input type="text" id="username" v-model="username" required>
-      </div>
-      <div>
-        <label for="password">비밀번호:</label>
-        <input type="password" id="password" v-model="password" required>
-      </div>
-      <button type="submit">로그인</button>
-    </form>
-  </div>
-</template>
 
+<template>
+    <div>
+      <form @submit = "login">
+<!--        <div>-->
+<!--          <div class="alert alert-danger">-->
+<!--            ID 또는 비밀번호를 확인해 주세요.-->
+<!--          </div>-->
+<!--        </div>-->
+        <div class="mb-3">
+          <label for="userId" class="form-label">아이디</label>
+          <input type="text" name="userId" id="userId" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">비밀번호</label>
+          <input type="password" name="password" id="password" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-dark">로그인</button>
+      </form>
+      <button type="submit" class="btn btn-dark">회원가입</button>
+
+    </div>
+</template>
+<style scoped>
+
+</style>
 <script>
+import axios from "axios";
+
 export default {
   data() {
-    return {
-      username: '',
+    return{
+      userId: '',
       password: ''
-    };
+    }
   },
   methods: {
     login() {
       // 로그인 로직 구현
-      console.log('로그인 버튼 클릭');
-      console.log('아이디:', this.username);
-      console.log('비밀번호:', this.password);
+      axios.post('/login', {
+        userId: this.userId,
+        password: this.password
+      })
     }
   }
 };

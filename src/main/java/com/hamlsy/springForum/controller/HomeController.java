@@ -12,9 +12,9 @@ public class HomeController {
 //        return "redirect:/login";
 //    }
 
-    @GetMapping("/login")
-    public String loginHome(){
-        return "login_home";
-    }
+//    @GetMapping("/login")
+//    public String loginHome(){
+//        return "login_home";
+//    }
 
 }
