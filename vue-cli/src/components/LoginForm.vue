@@ -1,19 +1,20 @@
 <template>
   <div class="login-container">
     <h2>로그인</h2>
-    <form @submit.prevent="submitForm">
+    <form @submit.prevent="login">
       <div class="form-group">
         <label for="userId">아이디</label>
-        <input type="text" id="userId" v-model="form.userId" required>
+        <input type="text" id="userId" name="userId" required>
       </div>
       <div class="form-group">
         <label for="password">비밀번호</label>
-        <input type="password" id="password" v-model="form.password" required>
+        <input type="password" id="password" name="password" required>
       </div>
       <div class="button-group">
         <button type="submit">로그인</button>
-        <router-link to="/register"><button type="button" @click="goToSignup">회원가입</button></router-link>
+        <button type="button"><router-link to="/register">회원가입</router-link></button>
       </div>
+
     </form>
   </div>
 </template>

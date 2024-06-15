@@ -1,7 +1,7 @@
 <template>
   <div class="signup-container">
     <h2>회원가입</h2>
-    <form @submit.prevent="submitForm">
+    <form>
       <div class="form-group">
         <label for="name">이름</label>
         <input type="text" id="name" v-model="form.name" required>
@@ -20,7 +20,7 @@
       </div>
       <div class="button-group">
         <button type="submit">가입하기</button>
-        <button type="button" @click="goToLogin">로그인</button>
+        <button type="button"><router-link to="/login">로그인</router-link></button>
       </div>
     </form>
   </div>
@@ -39,14 +39,6 @@ export default {
     };
   },
   methods: {
-    submitForm() {
-      // 회원가입 처리 로직 추가
-      console.log(this.form);
-    },
-    goToLogin() {
-      // 로그인 페이지로 이동하는 로직 추가
-      console.log('로그인 페이지로 이동');
-    }
   }
 };
 </script>
