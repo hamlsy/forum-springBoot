@@ -36,4 +36,10 @@ out/
 ### VS Code ###
 .vscode/
 
+### vue ###
+./vue-cli/node_modules
+
+
+
+
 
