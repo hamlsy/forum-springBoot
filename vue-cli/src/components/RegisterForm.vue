@@ -1,7 +1,15 @@
 <template>
-  <div class="login-container">
-    <h2>로그인</h2>
+  <div class="signup-container">
+    <h2>회원가입</h2>
     <form @submit.prevent="submitForm">
+      <div class="form-group">
+        <label for="name">이름</label>
+        <input type="text" id="name" v-model="form.name" required>
+      </div>
+      <div class="form-group">
+        <label for="nickname">닉네임</label>
+        <input type="text" id="nickname" v-model="form.nickname" required>
+      </div>
       <div class="form-group">
         <label for="userId">아이디</label>
         <input type="text" id="userId" v-model="form.userId" required>
@@ -11,37 +19,40 @@
         <input type="password" id="password" v-model="form.password" required>
       </div>
       <div class="button-group">
-        <button type="submit">로그인</button>
-        <router-link to="/register"><button type="button" @click="goToSignup">회원가입</button></router-link>
+        <button type="submit">가입하기</button>
+        <button type="button" @click="goToLogin">로그인</button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   data() {
-    return{
-      userId: '',
-      password: ''
-    }
+    return {
+      form: {
+        name: '',
+        nickname: '',
+        userId: '',
+        password: ''
+      }
+    };
   },
   methods: {
-    login() {
-      // 로그인 로직 구현
-      axios.post('/login', {
-        userId: this.userId,
-        password: this.password
-      })
+    submitForm() {
+      // 회원가입 처리 로직 추가
+      console.log(this.form);
+    },
+    goToLogin() {
+      // 로그인 페이지로 이동하는 로직 추가
+      console.log('로그인 페이지로 이동');
     }
   }
 };
 </script>
 
 <style scoped>
-.login-container {
+.signup-container {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
