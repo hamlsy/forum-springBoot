@@ -4,11 +4,11 @@
     <form @submit.prevent="login">
       <div class="form-group">
         <label for="userId">아이디</label>
-        <input type="text" id="userId" name="userId" required>
+        <input type="text" id="userId" v-model="userId" required>
       </div>
       <div class="form-group">
         <label for="password">비밀번호</label>
-        <input type="password" id="password" name="password" required>
+        <input type="password" id="password" v-model="password" required>
       </div>
       <div class="button-group">
         <button type="submit">로그인</button>
@@ -32,9 +32,13 @@ export default {
   methods: {
     login() {
       // 로그인 로직 구현
-      axios.post('/login', {
+      axios.post('/member/login', {
         userId: this.userId,
         password: this.password
+      }).then((res) => {
+        console.log("로그인에 성공했습니다.", res)
+      }).catch((res) => {
+        console.log("로그인에 실패했습니다.", res)
       })
     }
   }
