@@ -21,7 +21,8 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/member/**").permitAll()
-                        .requestMatchers("/post/**").hasRole(MemberRole.MEMBER.name())
+                                .requestMatchers("/post/**").permitAll()
+//                        .requestMatchers("/post/**").hasRole(MemberRole.MEMBER.name())
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form.disable()); // 폼 로그인을 비활성화
