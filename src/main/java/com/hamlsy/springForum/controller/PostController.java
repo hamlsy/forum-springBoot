@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,25 +22,21 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/post")
 public class PostController {
     private final PostService postService;
 
     @GetMapping("/list")
-    public String postList(@RequestParam(value = "page",defaultValue = "0") int page, Model model){
+    public ResponseEntity<Page<PostListResponse>> postList(@RequestParam(value = "page",defaultValue = "0") int page){
         Page<PostListResponse> postList = postService.paging(page);
+//
+//        int currentPage = postList.getPageable().getPageNumber()+1;
+//        int firstPage = Math.max(currentPage-4, 1);
+//        int endPage = Math.min(currentPage+9, postList.getTotalPages());
 
-        int currentPage = postList.getPageable().getPageNumber()+1;
-        int firstPage = Math.max(currentPage-4, 1);
-        int endPage = Math.min(currentPage+9, postList.getTotalPages());
-
-        model.addAttribute("postList", postList);
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("firstPage", firstPage);
-        model.addAttribute("endPage", endPage);
-        return "board";
+        return new ResponseEntity<>(postList,HttpStatus.OK);
     }
 
     @GetMapping("/upload")
