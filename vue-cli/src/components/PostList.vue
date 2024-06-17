@@ -25,7 +25,7 @@
       </thead>
       <tbody>
       <tr v-for="(post, index) in posts" :key="post.id">
-        <td>{{ posts.length - index }}</td>
+        <td>{{ totalElements - index -((currentPage-1)*pageSize)}}</td>
         <td>{{ post.subject }}</td>
         <td>{{ post.nickname }}</td>
         <td>{{ post.postTime }}</td>
@@ -34,7 +34,10 @@
     </table>
 
     <div class="pagination">
-      <button v-for="page in pages" :key="page">{{ page }}</button>
+      <button v-for="index in totalPages" :key="index"
+              @click = 'getPostPage(index)'>
+        {{ index }}
+      </button>
     </div>
   </div>
 </template>
@@ -47,22 +50,36 @@ export default {
     return {
       posts: [
       ],
-      pages: [1, 2, 3, 4, 5], // 페이지 번호 배열
+      pageSize: 0,
+      totalPages: 0,
+      totalElements: 0,
+      currentPage: 0,
     };
+  },
+  computed:{
+
   },
   created() {
     this.getPostList();
   },
   methods: {
     getPostList(){
-      axios.get("/post/list")
+      this.currentPage = window.location.href.split("=")[1];
+      axios.get("/post/list?page=" + (this.currentPage-1))
           .then((res) => {
             this.posts = res.data.content;
+            this.pageSize = res.data.size;
+            this.totalPages = res.data.totalPages;
+            this.totalElements = res.data.totalElements;
             console.log("게시글이 로드되었습니다.", res);
           })
           .catch((res) => {
             console.log("게시글을 불러오는 데 실패했습니다.", res);
           })
+    },
+    getPostPage(index){
+
+      return window.location.href = "/post/list?page=" + index;
     }
   }
 };

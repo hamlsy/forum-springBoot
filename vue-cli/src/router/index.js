@@ -21,7 +21,7 @@ const routes = [
         component: Register
     },
     {
-        path: '/postList',
+        path: '/post/list',
         name: 'PostList',
         component: PostList
     }
