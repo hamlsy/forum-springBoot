@@ -26,7 +26,7 @@
       <tbody>
       <tr v-for="(post, index) in posts" :key="post.id">
         <td>{{ totalElements - index -((currentPage-1)*pageSize)}}</td>
-        <td>{{ post.subject }}</td>
+        <td @click="getPost(post.id)">{{ post.subject }}</td>
         <td>{{ post.nickname }}</td>
         <td>{{ post.postTime }}</td>
       </tr>
@@ -78,8 +78,10 @@ export default {
           })
     },
     getPostPage(index){
-
       return window.location.href = "/post/list?page=" + index;
+    },
+    getPost(id){
+      return window.location.href = "/post/" + id;
     }
   }
 };
