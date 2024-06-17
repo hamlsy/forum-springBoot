@@ -3,10 +3,10 @@
     <nav class="navbar">
       <div class="logo">게시판</div>
       <ul class="nav-links">
-        <li><a href="#">홈</a></li>
-        <li><a href="#">게시글</a></li>
-        <li><a href="#">회원가입</a></li>
-        <li><a href="#">로그인</a></li>
+        <li><a href="/post/list">Home</a></li>
+        <li><a href="/member/register">회원가입</a></li>
+        <li><a href="/member/login">로그인</a></li>
+        <li><a href="/member/logout">로그아웃</a></li>
       </ul>
     </nav>
 

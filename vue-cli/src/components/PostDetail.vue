@@ -2,10 +2,10 @@
   <div class="post-detail-container">
     <nav class="navbar">
       <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">게시글 목록</a></li>
-        <li><a href="#">마이페이지</a></li>
-        <li><a href="#">로그아웃</a></li>
+        <li><a href="/post/list">Home</a></li>
+        <li><a href="/member/register">회원가입</a></li>
+        <li><a href="/member/login">로그인</a></li>
+        <li><a href="/member/logout">로그아웃</a></li>
       </ul>
     </nav>
 

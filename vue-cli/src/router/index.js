@@ -9,15 +9,15 @@ Vue.use(VueRouter);
 const routes = [
     {
         path:'/',
-        redirect: "/login",
+        redirect: "/member/login",
     },
     {
-        path: '/login',
+        path: '/member/login',
         name: 'Login',
         component: Login
     },
     {
-        path: '/register',
+        path: '/member/register',
         name: 'Register',
         component: Register
     },
