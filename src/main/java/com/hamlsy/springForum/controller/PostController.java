@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RestController
@@ -52,11 +53,15 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public String postDetail(@PathVariable("id") Long id, Model model){
-        PostResponse response = postService.findPost(id);
-        model.addAttribute("commentWriteRequest", new CommentWriteRequest());
-        model.addAttribute("post", response);
-        return "post_detail";
+    public ResponseEntity<PostResponse> postDetail(@PathVariable("id") Long id){
+        try{
+            PostResponse response = postService.findPost(id);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch(NoSuchElementException e){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+
     }
 
     @GetMapping("/modify/{id}")
