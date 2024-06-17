@@ -1,7 +1,6 @@
 <template>
   <div id="app">
 <!--    공통 템플릿-->
-    <h1>Test Page, Common template</h1>
     <router-view></router-view>
   </div>
 </template>

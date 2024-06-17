@@ -12,7 +12,8 @@
       </div>
       <div class="button-group">
         <button type="submit">로그인</button>
-        <button type="button"><router-link to="/register">회원가입</router-link></button>
+        <button type="button" onclick="location.href='/register'">회원가입</button>
+        <button type="button" onclick="location.href='/postList' ">메인게시판</button>
       </div>
 
     </form>
