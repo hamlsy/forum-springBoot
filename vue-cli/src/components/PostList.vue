@@ -20,13 +20,15 @@
         <th>번호</th>
         <th>제목</th>
         <th>작성자</th>
+        <th>작성시간</th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="post in posts" :key="post.id">
-        <td>{{ post.id }}</td>
-        <td>{{ post.title }}</td>
-        <td>{{ post.author }}</td>
+      <tr v-for="(post, index) in posts" :key="post.id">
+        <td>{{ posts.length - index }}</td>
+        <td>{{ post.subject }}</td>
+        <td>{{ post.nickname }}</td>
+        <td>{{ post.postTime }}</td>
       </tr>
       </tbody>
     </table>
@@ -38,18 +40,31 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       posts: [
-        { id: 1, title: '첫 번째 게시글', author: '작성자1' },
-        { id: 2, title: '두 번째 게시글', author: '작성자2' },
-        { id: 3, title: '세 번째 게시글', author: '작성자3' },
-        // 더 많은 게시글 데이터 추가
       ],
       pages: [1, 2, 3, 4, 5], // 페이지 번호 배열
     };
   },
+  created() {
+    this.getPostList();
+  },
+  methods: {
+    getPostList(){
+      axios.get("/post/list")
+          .then((res) => {
+            this.posts = res.data.content;
+            console.log("게시글이 로드되었습니다.", res);
+          })
+          .catch((res) => {
+            console.log("게시글을 불러오는 데 실패했습니다.", res);
+          })
+    }
+  }
 };
 </script>
 
