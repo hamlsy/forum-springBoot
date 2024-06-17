@@ -11,16 +11,16 @@
 
     <div class="post-content">
       <div class="post-header">
-        <h2 class="post-title">{{ post.title }}</h2>
+        <h2 class="post-title">{{ post.subject }}</h2>
         <div class="post-meta">
-          <span class="post-author">작성자: {{ post.author }}</span>
+          <span class="post-author">작성자: {{ post.nickname }}</span>
           <div class="button-group" v-if="isAuthor">
             <button @click="editPost">수정</button>
             <button @click="deletePost">삭제</button>
           </div>
         </div>
       </div>
-      <p class="post-body">{{ post.body }}</p>
+      <p class="post-body">{{ post.content }}</p>
     </div>
 
     <div class="comment-section">
@@ -40,23 +40,38 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       post: {
-        title: '게시글 제목',
-        author: '작성자',
-        body: '게시글 내용 '
+        postId:'',
+        subject: '',
+        nickname: '',
+        content: ''
       },
-      isAuthor: true,
       newComment: '',
-      comments: [
-        { text: '댓글 1', author: '작성자 1' },
-        { text: '댓글 2', author: '작성자 2' }
-      ]
+      comments: []
     };
   },
+  created() {
+    this.getPostDetail();
+  },
   methods: {
+    getPostDetail(){
+      axios.get("/post/" + this.$route.params.id)
+          .then((res) => {
+            this.post.postId = res.data.postId;
+            this.post.subject = res.data.subject;
+            this.post.content = res.data.content;
+            this.post.nickname = res.data.nickname;
+            console.log("게시글 id: " + this.postId, res)
+          })
+          .catch((res) => {
+            console.log("게시글 로드 실패", res);
+          })
+    },
     editPost() {
       // 게시글 수정 로직 추가
       console.log('게시글 수정');
