@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Login from "../components/LoginForm.vue";
 import Register from "../components/RegisterForm.vue";
 import PostList from "@/components/PostList.vue";
+import PostDetail from "@/components/PostDetail.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -24,6 +25,11 @@ const routes = [
         path: '/post/list',
         name: 'PostList',
         component: PostList
+    },
+    {
+        path: '/post/detail',
+        name: 'PostDetail',
+        component: PostDetail
     }
 ];
 
