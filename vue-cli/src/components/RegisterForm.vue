@@ -20,7 +20,7 @@
       </div>
       <div class="button-group">
         <button type="submit">가입하기</button>
-        <button type="button" onclick="location.href='/login'">로그인</button>
+        <button type="button" onclick="location.href='/member/login'">로그인</button>
       </div>
     </form>
   </div>

@@ -3,10 +3,10 @@
     <nav class="navbar">
       <div class="logo">게시판</div>
       <ul class="nav-links">
-        <li><a href="#">홈</a></li>
-        <li><a href="#">게시글</a></li>
-        <li><a href="#">회원가입</a></li>
-        <li><a href="#">로그인</a></li>
+        <li><a href="/post/list">Home</a></li>
+        <li><a href="/member/register">회원가입</a></li>
+        <li><a href="/member/login">로그인</a></li>
+        <li><a href="/member/logout">로그아웃</a></li>
       </ul>
     </nav>
 
@@ -26,7 +26,7 @@
       <tbody>
       <tr v-for="(post, index) in posts" :key="post.id">
         <td>{{ totalElements - index -((currentPage-1)*pageSize)}}</td>
-        <td>{{ post.subject }}</td>
+        <td @click="getPost(post.id)">{{ post.subject }}</td>
         <td>{{ post.nickname }}</td>
         <td>{{ post.postTime }}</td>
       </tr>
@@ -78,8 +78,10 @@ export default {
           })
     },
     getPostPage(index){
-
       return window.location.href = "/post/list?page=" + index;
+    },
+    getPost(id){
+      return window.location.href = "/post/" + id;
     }
   }
 };

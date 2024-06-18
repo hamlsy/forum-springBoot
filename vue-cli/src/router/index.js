@@ -9,22 +9,30 @@ Vue.use(VueRouter);
 const routes = [
     {
         path:'/',
-        redirect: "/login",
+        redirect: "/member/login",
     },
     {
-        path: '/login',
+        path: '/member/login',
         name: 'Login',
         component: Login
     },
     {
-        path: '/register',
+        path: '/member/register',
         name: 'Register',
         component: Register
     },
     {
         path: '/post/list',
         name: 'PostList',
-        component: PostList
+        component: PostList,
+        props: route => ({ page: parseInt(route.query.page) || 1 }),
+        beforeEnter: (to, from, next) => {
+            if (!to.query.page) {
+                next({path: '/post/list', query: {page: 1}});
+            } else {
+                next();
+            }
+        }
     },
     {
         path: '/post/:id',
