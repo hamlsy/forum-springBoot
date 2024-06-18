@@ -4,6 +4,7 @@ import Login from "../components/LoginForm.vue";
 import Register from "../components/RegisterForm.vue";
 import PostList from "@/components/PostList.vue";
 import PostDetail from "@/components/PostDetail.vue";
+import PostUploadForm from "@/components/PostUploadForm.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -35,10 +36,16 @@ const routes = [
         }
     },
     {
+        path: '/post/upload',
+        name: 'PostUploadForm',
+        component: PostUploadForm
+    },
+    {
         path: '/post/:id',
         name: 'PostDetail',
         component: PostDetail
-    }
+    },
+
 ];
 
 const router = new VueRouter({

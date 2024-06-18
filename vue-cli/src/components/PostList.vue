@@ -39,6 +39,9 @@
         {{ index }}
       </button>
     </div>
+    <div class="create-post-button">
+      <button @click="uploadPost">게시글 작성</button>
+    </div>
   </div>
 </template>
 
@@ -82,6 +85,9 @@ export default {
     },
     getPost(id){
       return window.location.href = "/post/" + id;
+    },
+    uploadPost(){
+      return window.location.href = "/post/upload";
     }
   }
 };
@@ -202,5 +208,24 @@ export default {
 
 .pagination button:active {
   background-color: #222;
+}
+.create-post-button {
+  position: fixed;
+  bottom: 20px;
+  right: 100px;
+}
+
+.create-post-button button {
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.create-post-button button:hover {
+  background-color: #555;
 }
 </style>
