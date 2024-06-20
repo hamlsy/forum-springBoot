@@ -14,7 +14,7 @@
         <h2 class="post-title">{{ post.subject }}</h2>
         <div class="post-meta">
           <span class="post-author">작성자: {{ post.nickname }}</span>
-          <div class="button-group" v-if="isAuthor">
+          <div class="button-group">
             <button @click="editPost">수정</button>
             <button @click="deletePost">삭제</button>
           </div>

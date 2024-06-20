@@ -11,7 +11,7 @@
 
     <div class="post-form">
       <h2>게시글 작성</h2>
-      <form @submit.prevent="submitForm">
+      <form @submit.prevent="submitForm" method="post" >
         <div class="form-group">
           <label for="subject">제목</label>
           <input type="text" id="subject" v-model="post.subject" required>
@@ -43,7 +43,15 @@ export default {
   },
   methods: {
     submitForm() {
-      axios.post("/post/upload")
+
+      const token = localStorage.getItem('member');
+      const headers = {
+        'Authorization': token
+      }
+      axios.post("/post/upload", {
+        subject: this.post.subject,
+        content: this.post.content
+      }, {headers})
           .then((res) => {
             alert("게시글을 업로드했습니다.");
             window.location.href = "/post/list";
@@ -53,10 +61,6 @@ export default {
             console.log("게시글 업로드에 실패했습니다.",res);
           })
 
-      // 게시글 저장 로직 추가
-      console.log(this.post);
-      // 저장 후 게시글 목록 페이지로 이동
-      this.$router.push('/post/list');
     },
     cancelForm() {
       // 취소 버튼 클릭 시 이전 페이지로 이동
