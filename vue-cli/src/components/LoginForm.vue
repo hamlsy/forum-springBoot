@@ -15,7 +15,6 @@
         <button type="button" onclick="location.href='/member/register'">회원가입</button>
         <button type="button" onclick="location.href='/post/list' ">메인게시판</button>
       </div>
-
     </form>
   </div>
 </template>
@@ -33,11 +32,15 @@ export default {
   methods: {
     login() {
       // 로그인 로직 구현
-      axios.post('/member/login', {
+      axios.post('/login', {
         userId: this.userId,
         password: this.password
       }).then((res) => {
+        const token = JSON.stringify(res.headers.get('Authorization')).replaceAll(`"`, "");
+        localStorage.setItem('member', token);
+        alert("로그인에 성공했습니다!")
         console.log("로그인에 성공했습니다.", res)
+        window.location.href = "/post/list"
       }).catch((res) => {
         console.log("로그인에 실패했습니다.", res)
       })

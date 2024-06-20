@@ -1,27 +1,23 @@
 package com.hamlsy.springForum.controller;
 
-import com.hamlsy.springForum.dto.request.comment.CommentWriteRequest;
-import com.hamlsy.springForum.dto.request.post.PostRequest;
+
 import com.hamlsy.springForum.dto.request.post.PostUpdateRequest;
 import com.hamlsy.springForum.dto.request.post.PostUploadRequest;
 import com.hamlsy.springForum.dto.response.post.PostListResponse;
 import com.hamlsy.springForum.dto.response.post.PostResponse;
+import com.hamlsy.springForum.dto.response.post.PostUploadResponse;
 import com.hamlsy.springForum.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -40,16 +36,12 @@ public class PostController {
         return new ResponseEntity<>(postList,HttpStatus.OK);
     }
 
-    @GetMapping("/upload")
-    public String postUpload(Model model){
-        model.addAttribute("postResponse", new PostResponse());
-        return "post_upload";
-    }
-
     @PostMapping("/upload")
-    public String postUpload(@Valid PostUploadRequest dto, Principal principal){
-        postService.uploadPost(dto, principal);
-        return "redirect:/post/list?page=0";
+    public ResponseEntity<PostUploadResponse> postUpload(@RequestBody @Valid PostUploadRequest dto){
+
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        PostUploadResponse response = postService.uploadPost(dto, name);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

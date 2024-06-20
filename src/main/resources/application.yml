@@ -5,6 +5,9 @@ server:
       persistent: false
 
 spring:
+  jwt:
+    secret: testSecretKey20242024testSecretKey20242024testSecretKey20242024
+    expiration: 86400000  # 1 day in milliseconds
   mvc:
 #    view:
 #      prefix: /static/

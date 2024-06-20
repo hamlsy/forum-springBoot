@@ -20,9 +20,10 @@ public class InitDb {
 
     @PostConstruct
     public void init(){
-//        initService.dbInit1();
+        initService.dbInit1();
 //        initService.dbInit2();
-        initService.dbInitLoop(80);
+
+        initService.dbInitLoop(40);
 
     }
 
@@ -34,27 +35,12 @@ public class InitDb {
         private final PasswordEncoder passwordEncoder;
         public void dbInit1(){
             Member member = new Member();
-            member.setName("Lee");
-            member.setUserId("lsy4723");
-            member.setPassword(passwordEncoder.encode("1234"));
-            member.setNickname("hamster");
+            member.setName("dd");
+            member.setUserId("dd");
+            member.setPassword(passwordEncoder.encode("dd"));
+            member.setNickname("dd");
             member.setRole(MemberRole.MEMBER);
             em.persist(member);
-
-            Post post1 = Post.createPost(member, "test subject", "test content", LocalDateTime.now());
-            Post post2 = Post.createPost(member, "두번째 글", "내용", LocalDateTime.now());
-            em.persist(post1);
-            em.persist(post2);
-
-            Comment comment1 = Comment.createComment(post1, member, "comment1");
-            Comment comment2 = Comment.createComment(post1, member, "comment2");
-            Comment comment3 = Comment.createComment(post1, member, "comment3");
-            Comment comment4 = Comment.createComment(post2, member, "comment11");
-
-            em.persist(comment1);
-            em.persist(comment2);
-            em.persist(comment3);
-            em.persist(comment4);
 
         }
 
