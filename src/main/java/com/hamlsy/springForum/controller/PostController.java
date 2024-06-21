@@ -5,6 +5,7 @@ import com.hamlsy.springForum.dto.request.post.PostUpdateRequest;
 import com.hamlsy.springForum.dto.request.post.PostUploadRequest;
 import com.hamlsy.springForum.dto.response.post.PostListResponse;
 import com.hamlsy.springForum.dto.response.post.PostResponse;
+import com.hamlsy.springForum.dto.response.post.PostUpdateResponse;
 import com.hamlsy.springForum.dto.response.post.PostUploadResponse;
 import com.hamlsy.springForum.service.PostService;
 import jakarta.validation.Valid;
@@ -56,17 +57,26 @@ public class PostController {
     }
 
     @GetMapping("/update/{id}")
-    public String postModify(@PathVariable("id") Long id, PostResponse postResponse){
-        PostResponse request = postService.findPost(id);
-        postResponse.setContent(request.getContent());
-        postResponse.setSubject(request.getSubject());
-        return "post_upload";
+    public ResponseEntity<PostResponse> postUpdate(@PathVariable("id") Long id){
+        try{
+            PostResponse response = postService.findPost(id);
+            response.setContent(response.getContent());
+            response.setSubject(response.getSubject());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch(NoSuchElementException e){
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }
     }
 
     @PostMapping("/update/{id}")
-    public String postModify(@PathVariable("id") Long postId, PostUpdateRequest request){
-        postService.updatePost(postId, request);
-        return String.format("redirect:/post/%s", postId);
+    public ResponseEntity<PostUpdateResponse> postUpdate(@PathVariable("id") Long postId, @RequestBody @Valid PostUpdateRequest request){
+        try{
+            PostUpdateResponse response = postService.updatePost(postId, request);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch(NoSuchElementException e){
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }
+
     }
 
     @GetMapping("/delete/{id}")

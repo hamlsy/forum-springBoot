@@ -15,7 +15,7 @@
         <div class="post-meta">
           <span class="post-author">작성자: {{ post.nickname }}</span>
           <div class="button-group">
-            <button @click="editPost">수정</button>
+            <button @click="updatePost">수정</button>
             <button @click="deletePost">삭제</button>
           </div>
         </div>
@@ -65,7 +65,7 @@ export default {
             this.post.subject = res.data.subject;
             this.post.content = res.data.content;
             this.post.nickname = res.data.nickname;
-            console.log("게시글 id: " + this.postId, res)
+            console.log("게시글 id: " + this.post.postId, res)
           })
           .catch((res) => {
             console.log("게시글 로드 실패", res);

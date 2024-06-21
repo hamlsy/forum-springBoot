@@ -5,7 +5,7 @@ import Register from "../components/RegisterForm.vue";
 import PostList from "@/components/PostList.vue";
 import PostDetail from "@/components/PostDetail.vue";
 import PostUploadForm from "@/components/PostUploadForm.vue";
-import PostModifyForm from "@/components/PostUpdateForm.vue";
+import PostUpdateForm from "@/components/PostUpdateForm.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -47,9 +47,9 @@ const routes = [
         component: PostDetail
     },
     {
-        path: '/post/modify',
-        name: 'PostModifyForm',
-        component: PostModifyForm
+        path: '/post/update/:id',
+        name: 'PostUpdateForm',
+        component: PostUpdateForm
     }
 
 ];

@@ -10,7 +10,7 @@
     </nav>
 
     <div class="post-form">
-      <h2>게시글 작성</h2>
+      <h2>게시글 수정</h2>
       <form @submit.prevent="submitForm" method="post" >
         <div class="form-group">
           <label for="subject">제목</label>
@@ -51,7 +51,7 @@ export default {
       const headers = {
         'Authorization': this.token
       }
-      axios.get("/post/update" +this.postId, {headers}
+      axios.get("/post/update/" +this.postId, {headers}
       ).then((res) => {
         this.post.subject = res.data.subject;
         this.post.content = res.data.content;
@@ -66,7 +66,7 @@ export default {
       const headers = {
         'Authorization': this.token
       }
-      axios.post("/post/update" + this.postId, {
+      axios.post("/post/update/" + this.postId, {
         subject: this.post.subject,
         content: this.post.content
       }, {headers})

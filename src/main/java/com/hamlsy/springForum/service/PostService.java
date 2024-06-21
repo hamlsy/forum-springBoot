@@ -32,11 +32,9 @@ public class PostService {
     private final MemberRepository memberRepository;
 
     @Transactional
-//    public PostUploadResponse uploadPost(PostUploadRequest dto, Principal principal){
     public PostUploadResponse uploadPost(PostUploadRequest dto, String userId){
         dto.setPostTime(LocalDateTime.now());
         Post post = dto.toEntity(dto);
-//        Member member = memberRepository.findByUserId(principal.getName());
         Member member = memberRepository.findByUserId(userId);
         post.setMember(member);
         postRepository.save(post);
