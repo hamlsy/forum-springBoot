@@ -38,7 +38,6 @@ public class PostController {
 
     @PostMapping("/upload")
     public ResponseEntity<PostUploadResponse> postUpload(@RequestBody @Valid PostUploadRequest dto){
-
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         PostUploadResponse response = postService.uploadPost(dto, name);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -56,7 +55,7 @@ public class PostController {
 
     }
 
-    @GetMapping("/modify/{id}")
+    @GetMapping("/update/{id}")
     public String postModify(@PathVariable("id") Long id, PostResponse postResponse){
         PostResponse request = postService.findPost(id);
         postResponse.setContent(request.getContent());
@@ -64,7 +63,7 @@ public class PostController {
         return "post_upload";
     }
 
-    @PostMapping("/modify/{id}")
+    @PostMapping("/update/{id}")
     public String postModify(@PathVariable("id") Long postId, PostUpdateRequest request){
         postService.updatePost(postId, request);
         return String.format("redirect:/post/%s", postId);

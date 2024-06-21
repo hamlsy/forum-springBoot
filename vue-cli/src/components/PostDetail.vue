@@ -52,7 +52,6 @@ export default {
         content: ''
       },
       newComment: '',
-      comments: []
     };
   },
   created() {
@@ -72,9 +71,10 @@ export default {
             console.log("게시글 로드 실패", res);
           })
     },
-    editPost() {
+    updatePost() {
       // 게시글 수정 로직 추가
-      console.log('게시글 수정');
+      console.log('게시글 수정페이지 이동');
+      window.location.href = "/post/update/" + this.post.postId;
     },
     deletePost() {
       // 게시글 삭제 로직 추가
