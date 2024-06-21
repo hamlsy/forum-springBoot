@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.security.Principal;
 import java.util.NoSuchElementException;
 
@@ -59,11 +60,15 @@ public class PostController {
     @GetMapping("/update/{id}")
     public ResponseEntity<PostResponse> postUpdate(@PathVariable("id") Long id){
         try{
-            PostResponse response = postService.findPost(id);
+            PostResponse response = postService.findUpdatePost(id);
             response.setContent(response.getContent());
             response.setSubject(response.getSubject());
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch(NoSuchElementException e){
+        }
+        catch(AccessDeniedException e){
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+        catch(NoSuchElementException e){
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
     }
@@ -73,7 +78,11 @@ public class PostController {
         try{
             PostUpdateResponse response = postService.updatePost(postId, request);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch(NoSuchElementException e){
+        }
+        catch(AccessDeniedException e){
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+        catch(Exception e){
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
 

@@ -15,9 +15,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.AccessDeniedException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,8 +44,12 @@ public class PostService {
     }
 
     @Transactional
-    public PostUpdateResponse updatePost(Long postId, PostUpdateRequest dto){
+    public PostUpdateResponse updatePost(Long postId, PostUpdateRequest dto) throws AccessDeniedException{
         Post post = findPostById(postId);
+
+        //사용자와 다를 경우
+        memberValidation(post.getMember().getUserId());
+
         post.update(dto.getSubject(), dto.getContent());
         return PostUpdateResponse.fromEntity(post);
     }
@@ -62,6 +68,21 @@ public class PostService {
 
     public PostResponse findPost(Long postId){
         Post post = findPostById(postId);
+        return PostResponse.fromEntity(post);
+    }
+
+    private void memberValidation(String userId) throws AccessDeniedException{
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        //사용자와 다를 경우
+        if(!userId.equals(name)){
+            throw new AccessDeniedException("접근 권한이 없습니다.");
+        }
+    }
+
+    public PostResponse findUpdatePost(Long postId) throws AccessDeniedException{
+        Post post = findPostById(postId);
+        //사용자와 다를 경우
+        memberValidation(post.getMember().getUserId());
         return PostResponse.fromEntity(post);
     }
 

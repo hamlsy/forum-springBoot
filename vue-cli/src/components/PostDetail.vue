@@ -30,10 +30,10 @@
         <button @click="addComment">등록</button>
       </div>
       <ul class="comment-list">
-        <li v-for="(comment, index) in comments" :key="index">
-          <span class="comment-author">{{ comment.author }}</span>
-          <p class="comment-text">{{ comment.text }}</p>
-        </li>
+<!--        <li v-for="(comment, index) in comments" :key="index">-->
+<!--          <span class="comment-author">{{ comment.author }}</span>-->
+<!--          <p class="comment-text">{{ comment.text }}</p>-->
+<!--        </li>-->
       </ul>
     </div>
   </div>
