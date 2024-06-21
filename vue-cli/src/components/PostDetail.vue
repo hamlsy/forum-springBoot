@@ -15,7 +15,7 @@
         <div class="post-meta">
           <span class="post-author">작성자: {{ post.nickname }}</span>
           <div class="button-group">
-            <button @click="editPost">수정</button>
+            <button @click="updatePost">수정</button>
             <button @click="deletePost">삭제</button>
           </div>
         </div>
@@ -30,10 +30,10 @@
         <button @click="addComment">등록</button>
       </div>
       <ul class="comment-list">
-        <li v-for="(comment, index) in comments" :key="index">
-          <span class="comment-author">{{ comment.author }}</span>
-          <p class="comment-text">{{ comment.text }}</p>
-        </li>
+<!--        <li v-for="(comment, index) in comments" :key="index">-->
+<!--          <span class="comment-author">{{ comment.author }}</span>-->
+<!--          <p class="comment-text">{{ comment.text }}</p>-->
+<!--        </li>-->
       </ul>
     </div>
   </div>
@@ -52,7 +52,6 @@ export default {
         content: ''
       },
       newComment: '',
-      comments: []
     };
   },
   created() {
@@ -66,15 +65,16 @@ export default {
             this.post.subject = res.data.subject;
             this.post.content = res.data.content;
             this.post.nickname = res.data.nickname;
-            console.log("게시글 id: " + this.postId, res)
+            console.log("게시글 id: " + this.post.postId, res)
           })
           .catch((res) => {
             console.log("게시글 로드 실패", res);
           })
     },
-    editPost() {
+    updatePost() {
       // 게시글 수정 로직 추가
-      console.log('게시글 수정');
+      console.log('게시글 수정페이지 이동');
+      window.location.href = "/post/update/" + this.post.postId;
     },
     deletePost() {
       // 게시글 삭제 로직 추가

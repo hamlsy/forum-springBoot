@@ -5,6 +5,7 @@ import com.hamlsy.springForum.dto.request.post.PostUpdateRequest;
 import com.hamlsy.springForum.dto.request.post.PostUploadRequest;
 import com.hamlsy.springForum.dto.response.post.PostListResponse;
 import com.hamlsy.springForum.dto.response.post.PostResponse;
+import com.hamlsy.springForum.dto.response.post.PostUpdateResponse;
 import com.hamlsy.springForum.dto.response.post.PostUploadResponse;
 import com.hamlsy.springForum.service.PostService;
 import jakarta.validation.Valid;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.security.Principal;
 import java.util.NoSuchElementException;
 
@@ -38,7 +40,6 @@ public class PostController {
 
     @PostMapping("/upload")
     public ResponseEntity<PostUploadResponse> postUpload(@RequestBody @Valid PostUploadRequest dto){
-
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         PostUploadResponse response = postService.uploadPost(dto, name);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -56,18 +57,35 @@ public class PostController {
 
     }
 
-    @GetMapping("/modify/{id}")
-    public String postModify(@PathVariable("id") Long id, PostResponse postResponse){
-        PostResponse request = postService.findPost(id);
-        postResponse.setContent(request.getContent());
-        postResponse.setSubject(request.getSubject());
-        return "post_upload";
+    @GetMapping("/update/{id}")
+    public ResponseEntity<PostResponse> postUpdate(@PathVariable("id") Long id){
+        try{
+            PostResponse response = postService.findUpdatePost(id);
+            response.setContent(response.getContent());
+            response.setSubject(response.getSubject());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        catch(AccessDeniedException e){
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+        catch(NoSuchElementException e){
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }
     }
 
-    @PostMapping("/modify/{id}")
-    public String postModify(@PathVariable("id") Long postId, PostUpdateRequest request){
-        postService.updatePost(postId, request);
-        return String.format("redirect:/post/%s", postId);
+    @PostMapping("/update/{id}")
+    public ResponseEntity<PostUpdateResponse> postUpdate(@PathVariable("id") Long postId, @RequestBody @Valid PostUpdateRequest request){
+        try{
+            PostUpdateResponse response = postService.updatePost(postId, request);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        catch(AccessDeniedException e){
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }
+
     }
 
     @GetMapping("/delete/{id}")
