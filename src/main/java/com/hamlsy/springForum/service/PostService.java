@@ -46,7 +46,6 @@ public class PostService {
     @Transactional
     public PostUpdateResponse updatePost(Long postId, PostUpdateRequest dto) throws AccessDeniedException{
         Post post = findPostById(postId);
-
         //사용자와 다를 경우
         memberValidation(post.getMember().getUserId());
 
@@ -73,8 +72,8 @@ public class PostService {
 
     private void memberValidation(String userId) throws AccessDeniedException{
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        //사용자와 다를 경우
-        if(!userId.equals(name)){
+        //사용자와 다를 경우 or 익명 사용자
+        if(!userId.equals(name) || name.equals("anonymousUser")){
             throw new AccessDeniedException("접근 권한이 없습니다.");
         }
     }
