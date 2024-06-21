@@ -1,12 +1,12 @@
 package com.hamlsy.springForum.dto.response.post;
 
 import com.hamlsy.springForum.domain.Post;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.hamlsy.springForum.repository.PostRepository;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter

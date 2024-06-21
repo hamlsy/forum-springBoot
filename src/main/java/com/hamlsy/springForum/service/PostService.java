@@ -95,7 +95,7 @@ public class PostService {
     public Page<PostListResponse> paging(int page){
         int pageLimit = 15;
         Pageable pageable = PageRequest.of(page, pageLimit, Sort.by(Sort.Order.desc("postTime")));
-        Page<Post> postList = postRepository.findAll(pageable);
+        Page<Post> postList = postRepository.findAllWithMember(pageable);
         Page<PostListResponse> postPageList = postList.map(
                 postPage -> new PostListResponse().fromEntity(postPage)
         );
