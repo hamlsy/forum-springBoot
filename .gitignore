@@ -39,7 +39,10 @@ out/
 ### vue ###
 ./vue-cli/node_modules
 
-
+###modules
+out
+node_modules
+.gradle
 
 
 
