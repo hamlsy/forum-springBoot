@@ -52,6 +52,7 @@ export default {
         content: ''
       },
       newComment: '',
+      token: localStorage.getItem('member'),
     };
   },
   created() {
@@ -77,10 +78,37 @@ export default {
       window.location.href = "/post/update/" + this.post.postId;
     },
     deletePost() {
-      // 게시글 삭제 로직 추가
+      const headers = {
+        'Authorization': this.token
+      }
+      if(confirm("삭제하시겠습니까?")) {
+        axios.get("/post/delete/" + this.$route.params.id, {headers})
+            .then((res) => {
+              alert("게시글이 삭제되었습니다.");
+              console.log("게시글이 삭제되었습니다.", res);
+              window.location.href = "/post/list";
+            })
+            .catch((error) => {
+              if(error.response.status === 404){
+                alert("게시글이 존재하지 않습니다.");
+                console.log("게시글이 존재하지 않습니다.", error);
+              }
+              else if(error.response.status === 403){
+                alert("잘못된 접근입니다.");
+                console.log("잘못된 접근입니다.", error);
+              }
+              else{
+                alert("알 수 없는 오류가 발생했습니다.");
+                console.log("알 수 없는 오류", error);
+              }
+          })
+      }
+
+
       console.log('게시글 삭제');
     },
     addComment() {
+
       // 댓글 등록 로직 추가
       console.log('댓글 등록:', this.newComment);
       this.newComment = '';

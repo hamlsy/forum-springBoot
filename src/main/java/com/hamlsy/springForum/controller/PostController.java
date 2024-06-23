@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -50,11 +51,12 @@ public class PostController {
         try{
             PostResponse response = postService.findPost(id);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch(NoSuchElementException e){
+        }catch(NullPointerException | NoSuchElementException e){
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-
-
+        catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/update/{id}")
@@ -66,10 +68,13 @@ public class PostController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         catch(AccessDeniedException e){
-            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
-        catch(NoSuchElementException e){
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        catch(NullPointerException | NoSuchElementException e){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -80,18 +85,31 @@ public class PostController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         catch(AccessDeniedException e){
-            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
+        catch(NullPointerException | NoSuchElementException e){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         catch(Exception e){
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
     }
 
     @GetMapping("/delete/{id}")
-    public String postDelete(@PathVariable("id") Long postId, Principal principal){
-        postService.deletePost(postId, principal);
-        return "redirect:/post/list";
+    public ResponseEntity<?> postDelete(@PathVariable("id") Long postId){
+        try{
+            postService.deletePost(postId);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }catch(AccessDeniedException e){
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }catch(NullPointerException | NoSuchElementException e){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+
     }
 
 }

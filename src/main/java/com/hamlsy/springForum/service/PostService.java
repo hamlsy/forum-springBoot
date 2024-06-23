@@ -54,14 +54,9 @@ public class PostService {
     }
 
     @Transactional
-    public void deletePost(Long postId, Principal principal){
-        if(principal == null){
-            throw new IllegalStateException("인증이 필요합니다.");
-        }
+    public void deletePost(Long postId) throws AccessDeniedException, NullPointerException, NoSuchElementException{
         Post post = findPostById(postId);
-        if(post.getMember().getUserId() != principal.getName()){
-            throw new IllegalStateException("작성자만 삭제할 수 있습니다.");
-        }
+        memberValidation(post.getMember().getUserId());
         postRepository.deleteById(postId);
     }
 
@@ -87,8 +82,7 @@ public class PostService {
 
     private Post findPostById(Long id){
         return postRepository.findById(id).orElseThrow(
-                //todo: 예외 클래스 새로 작성
-                () -> new NoSuchElementException()
+                () -> new NullPointerException()
         );
     }
 
